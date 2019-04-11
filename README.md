@@ -202,18 +202,28 @@ I suggest using [pyenv](https://github.com/pyenv/pyenv) for local development.
 
 ### Running tests
 
-1. Run `pip<version> install --no-cache-dir -r requirements.txt` to install dependencies
-1. Run tests with [tox](https://tox.readthedocs.io/en/latest/index.html) (`tox` in your console)
-    * For Python 2.7 run `tox -e py27` (you need to have Python 2.7 installed)
-    * For Python 3.4 run `tox -e py34` (you need to have Python 3.4 installed)
-    * For Python 3.5 run `tox -e py35` (you need to have Python 3.5 installed)
-    * For Python 3.6 run `tox -e py36` (you need to have Python 3.6 installed)
+To ensures that `tox` tests can be run with all necessary Python versions use multiple local Python environments with pyenv:
+`pyenv local 2.7.16 3.4.9 3.5.7 3.6.8 3.7.3`. This command may differ because of newer Python versions.
+
+1. Run `pipenv install` to install dependencies with [Pipenv](https://github.com/pypa/pipenv)
+1. Run `pipenv run tox` to run tests with [tox](https://tox.readthedocs.io/en/latest/index.html)
+
+To only run tests for a specific version: (You need to have the specific version installed and available for the project.
+You may install a version via `pyenv install <version>` and then use it with `pyenv local <version|versions...>`):
+
+Python Version | Command
+---------------|---------------
+Python 2.7 | `pipenv run tox -e py27`
+Python 3.4 | `pipenv run tox -e py34`
+Python 3.5 | `pipenv run tox -e py35`
+Python 3.6 | `pipenv run tox -e py36`
+Python 3.7 | `pipenv run tox -e py37`
 
 ### Uploading a new package to PyPI
 
-1. Run `pip<version> install --no-cache-dir -r requirements.txt` to install dependencies
-1. Run `python<version> setup.py sdist bdist_wheel` to generate distribution archives
-1. Run `twine upload --repository-url https://test.pypi.org/legacy/ dist/*` to upload the archives to the Test Python Package Index repository
+1. Run `pipenv install` to install dependencies
+1. Run `pipenv run python setup.py sdist bdist_wheel` to generate distribution archives
+1. Run `pipenv run twine upload --repository-url https://test.pypi.org/legacy/ dist/*` to upload the archives to the Test Python Package Index repository
 
 > When the package is ready to be published to the real Python Package Index
 the `repository-url` is `https://upload.pypi.org/legacy/`.

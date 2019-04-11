@@ -1,5 +1,10 @@
 # Python GEDCOM Parser - Changelog
 
+## [v1.0.1](https://github.com/nickreynke/python-gedcom/releases/tag/v1.0.1)
+
+- Added support for Python 3.7
+- Moved from `requirements.txt` to [Pipenv](https://github.com/pypa/pipenv) for local development and (automated) testing
+
 ## [v1.0.0](https://github.com/nickreynke/python-gedcom/releases/tag/v1.0.0)
 
 ### Changes:

@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+check-manifest = "*"
+flake8 = "*"
+pytest = "*"
+setuptools = ">=41.0.0"
+tox = "*"
+twine = ">=1.13.0"
+wheel = ">=0.33.1"
+
+[packages]
+
+[requires]
+python_version = "3.7"

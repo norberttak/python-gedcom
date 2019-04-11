@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='python-gedcom',
-    version='1.0.0',
+    version='1.0.1dev',
     description='A Python module for parsing, analyzing, and manipulating GEDCOM files.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -19,9 +19,9 @@ setup(
     author_email='contact@reynke.com',
     license='GPLv2',
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Topic :: Sociology :: Genealogy',
+        'Topic :: Sociology :: History',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -29,13 +29,14 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     keywords='python gedcom parser',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[],
     extras_require={
-        'dev': ['setuptools', 'wheel', 'twine'],
-        'test': ['tox'],
+        'dev': ['setuptools', 'twine', 'wheel'],
+        'test': ['check-manifest', 'flake8', 'pytest', 'tox'],
     },
     package_data={},
     data_files=[],
