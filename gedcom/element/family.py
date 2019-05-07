@@ -40,3 +40,21 @@ class FamilyElement(Element):
         :rtype: bool
         """
         return self.get_tag() == gedcom.tags.GEDCOM_TAG_FAMILY
+
+    def get_marrige_detail(self):
+        husband_ptr = ""
+        wife_ptr = ""
+        place = ""
+        date = ""
+        for element in self.get_child_elements():
+            if element.get_tag() == gedcom.tags.GEDCOM_TAG_HUSBAND:
+                husband_ptr = element.get_value()
+            if element.get_tag() == gedcom.tags.GEDCOM_TAG_WIFE:
+                wife_ptr = element.get_value()
+            if element.get_tag() == gedcom.tags.GEDCOM_TAG_MARRIAGE:
+                for marr_element in element.get_child_elements():
+                    if marr_element.get_tag() == gedcom.tags.GEDCOM_TAG_PLACE:
+                        place = marr_element.get_value()
+                    if marr_element.get_tag() == gedcom.tags.GEDCOM_TAG_DATE:
+                        date = marr_element.get_value()
+        return (husband_ptr, wife_ptr, date, place)

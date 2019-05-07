@@ -133,6 +133,14 @@ class IndividualElement(Element):
         # If we reach here we are probably returning empty strings
         return given_name, surname
 
+    def get_name_suffix(self):
+        for child in self.get_child_elements():
+            if child.get_tag() == gedcom.tags.GEDCOM_TAG_NAME:
+                for childOfChild in child.get_child_elements():
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_NAME_SUFIX:
+                        return childOfChild.get_value()
+        return ""
+
     def surname_match(self, surname_to_match):
         """Matches a string with the surname of an individual
         :type surname_to_match: str
@@ -229,6 +237,7 @@ class IndividualElement(Element):
         date = ""
         place = ""
         sources = []
+        cause = ""
 
         if not self.is_individual():
             return date, place
@@ -242,8 +251,9 @@ class IndividualElement(Element):
                         place = childOfChild.get_value()
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_SOURCE:
                         sources.append(childOfChild.get_value())
-
-        return date, place, sources
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_CAUSE:
+                        cause = childOfChild.get_value()
+        return date, place, sources, cause
 
     def get_death_year(self):
         """Returns the death year of a person in integer format
@@ -267,6 +277,30 @@ class IndividualElement(Element):
             return int(date)
         except ValueError:
             return -1
+
+    def get_event_list(self):
+        """Returns the event list of a person
+        :rtype: list of tuples
+        """
+        events = []
+
+        if not self.is_individual():
+            return events
+
+        for child in self.get_child_elements():
+            title = ""
+            date = ""
+            ev_type = ""
+            if child.get_tag() == gedcom.tags.GEDCOM_TAG_EVENT:
+                title = child.get_value()
+                for childOfChild in child.get_child_elements():
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_DATE:
+                        date = childOfChild.get_value()
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_TYPE:
+                        ev_type = childOfChild.get_value()
+                events.append((title,date,ev_type))
+
+        return events
 
     @deprecated
     def get_burial(self):

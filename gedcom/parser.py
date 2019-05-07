@@ -142,7 +142,13 @@ class Parser(object):
         last_element = self.get_root_element()
 
         for line in gedcom_file:
-            last_element = self.__parse_line(line_number, line.decode('utf-8-sig'), last_element, strict)
+            try:
+                last_element = self.__parse_line(line_number, line.decode('utf-8-sig'), last_element, strict)
+            except:
+                print("invalid utf-8 char in this line:")
+                print (line)
+                return
+
             line_number += 1
 
     # Private methods

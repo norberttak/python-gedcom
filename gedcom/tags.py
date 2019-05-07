@@ -121,3 +121,11 @@ GEDCOM_TAG_SURNAME = "SURN"
 
 # An individual in the role as a mother and/or married woman.
 GEDCOM_TAG_WIFE = "WIFE"
+
+GEDCOM_TAG_NAME_SUFIX = "NSFX"
+
+GEDCOM_TAG_CAUSE = "CAUS"
+
+GEDCOM_TAG_EVENT = "EVEN"
+
+GEDCOM_TAG_TYPE = "TYPE"
