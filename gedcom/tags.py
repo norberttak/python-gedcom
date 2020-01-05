@@ -81,6 +81,8 @@ GEDCOM_TAG_FAMILY_SPOUSE = "FAMS"
 # An information storage place that is ordered and arranged for preservation and reference.
 GEDCOM_TAG_FILE = "FILE"
 
+GEDCOM_TAG_TITLE = "TITL"
+
 # A given or earned name used for official identification of a person.
 GEDCOM_TAG_GIVEN_NAME = "GIVN"
 

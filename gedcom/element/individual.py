@@ -182,15 +182,16 @@ class IndividualElement(Element):
         return gender
 
     def get_birth_data(self):
-        """Returns the birth data of a person formatted as a tuple: (`str` date, `str` place, `list` sources)
+        """Returns the birth data of a person formatted as a tuple: (`str` date, `str` place, `list` sources, `list` files)
         :rtype: tuple
         """
         date = ""
         place = ""
         sources = []
+        files = []
 
         if not self.is_individual():
-            return date, place, sources
+            return date, place, sources, files
 
         for child in self.get_child_elements():
             if child.get_tag() == gedcom.tags.GEDCOM_TAG_BIRTH:
@@ -205,7 +206,12 @@ class IndividualElement(Element):
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_SOURCE:
                         sources.append(childOfChild.get_value())
 
-        return date, place, sources
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_OBJECT:
+                        for obj in childOfChild.get_child_elements():
+                            if obj.get_tag == gedcom.tags.GEDCOM_TAG_FILE:
+                                files.append(obj.get_value())
+
+        return date, place, sources, files
 
     def get_birth_year(self):
         """Returns the birth year of a person in integer format
@@ -231,29 +237,39 @@ class IndividualElement(Element):
             return -1
 
     def get_death_data(self):
-        """Returns the death data of a person formatted as a tuple: (`str` date, `str` place, `list` sources)
+        """Returns the death data of a person formatted as a tuple: (`str` date, `str` place, `list` sources, `str` cause, `list` files)
         :rtype: tuple
         """
         date = ""
         place = ""
         sources = []
         cause = ""
+        files = []
 
         if not self.is_individual():
-            return date, place
+            return (date, place, sources, cause, files)
 
         for child in self.get_child_elements():
             if child.get_tag() == gedcom.tags.GEDCOM_TAG_DEATH:
                 for childOfChild in child.get_child_elements():
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_DATE:
                         date = childOfChild.get_value()
+
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_PLACE:
                         place = childOfChild.get_value()
+
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_SOURCE:
                         sources.append(childOfChild.get_value())
+
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_CAUSE:
                         cause = childOfChild.get_value()
-        return date, place, sources, cause
+
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_OBJECT:
+                        for obj in childOfChild.get_child_elements():
+                            if obj.get_tag == gedcom.tags.GEDCOM_TAG_FILE:
+                                files.append(obj.get_value())
+
+        return (date, place, sources, cause, files)
 
     def get_death_year(self):
         """Returns the death year of a person in integer format
@@ -291,6 +307,9 @@ class IndividualElement(Element):
             title = ""
             date = ""
             ev_type = ""
+            source_ref = ""
+            files_url = []
+
             if child.get_tag() == gedcom.tags.GEDCOM_TAG_EVENT:
                 title = child.get_value()
                 for childOfChild in child.get_child_elements():
@@ -298,7 +317,16 @@ class IndividualElement(Element):
                         date = childOfChild.get_value()
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_TYPE:
                         ev_type = childOfChild.get_value()
-                events.append((title,date,ev_type))
+
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_SOURCE:
+                        source_ref = childOfChild.get_value();
+                    
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_OBJECT:
+                        for obj in childOfChild.get_child_elements():
+                            if obj.get_tag == gedcom.tags.GEDCOM_TAG_FILE:
+                                files_url.append(obj.get_value())
+                            
+                events.append((title, date, ev_type, files_url))
 
         return events
 
